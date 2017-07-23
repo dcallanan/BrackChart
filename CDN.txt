@@ -1,0 +1,27 @@
+# CDN
+
+[latest]
+https://cdn.rawgit.com/dcallanan/BrackChart/master/latest/brackchart.min.js
+https://cdn.rawgit.com/dcallanan/BrackChart/master/latest/brackchart.min.css
+
+[v1.x latest]
+https://cdn.rawgit.com/dcallanan/BrackChart/master/latest1/brackchart.min.js
+https://cdn.rawgit.com/dcallanan/BrackChart/master/latest1/brackchart.min.css
+
+[v1.1]
+https://cdn.rawgit.com/dcallanan/BrackChart/master/1.1/brackchart.min.js
+https://cdn.rawgit.com/dcallanan/BrackChart/master/1.1/brackchart.min.css
+
+# RAW
+
+[latest]
+https://raw.githubusercontent.com/dcallanan/BrackChart/master/latest/brackchart.min.js
+https://raw.githubusercontent.com/dcallanan/BrackChart/master/latest/brackchart.min.css
+
+[v1.x latest]
+https://raw.githubusercontent.com/dcallanan/BrackChart/master/latest1/brackchart.min.js
+https://raw.githubusercontent.com/dcallanan/BrackChart/master/latest1/brackchart.min.css
+
+[v1.1]
+https://raw.githubusercontent.com/dcallanan/BrackChart/master/1.1/brackchart.min.js
+https://raw.githubusercontent.com/dcallanan/BrackChart/master/1.1/brackchart.min.css
