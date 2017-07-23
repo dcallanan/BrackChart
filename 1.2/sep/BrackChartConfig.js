@@ -7,11 +7,11 @@ var BrackChart_gl_WRAPPERPADDING = true;
 
 function BrackChartConfig()
 {
-	this.width = 200;
+	this.width = 230;
 	this.height = 130;
 	this.paddingX = 60;
 	this.paddingY = 30;
-	this.lineWidth = 2;
+	this.lineWidth = 1;
 	this.chartHasMargin = true;
 }
 

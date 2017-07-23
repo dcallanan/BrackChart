@@ -1,11 +1,10 @@
-var BrackChart_gl_FLAGS = {"Antrim":["ffbb33","ffffff"],"Galway":["892525","ffffff"],"Leitrim":["098c0b","f9f504"],"Mayo":["098c0b","ed0909"],"Roscommon":["310de2","f9f504"],"Sligo":["000000","ffffff"],"Carlow":["098c0b","ed0909","f9f504"],"Dublin":["8fcff7","19397a"],"Kildare":["ffffff"],"Kilkenny":["000000","e8e409"],"Laois":["310de2","ffffff"],"Longford":["310de2","ecf400"],"Louth":["f40000","ffffff"],"Meath":["098c0b","f9f504"],"Offaly":["098c0b","ffffff","e8e409"],"Westmeath":["892525","ffffff"],"Wexford":["#6500a0","f9f504"],"Wicklow":["310de2","f9f504"],"Munster Council":["310de2","000a9e"],"Clare":["ecf400","310de2"],"Cork":["f40000","ffffff"],"Kerry":["098c0b","f9f504"],"Limerick":["098c0b","ffffff"],"Tipperary":["310de2","ecf400"],"Waterford":["ffffff","310de2"],"Armagh":["fc9b0a","ffffff"],"Cavan":["310de2","ffffff"],"Derry":["f40000","ffffff"],"Donegal":["098c0b","f9f504"],"Down":["f40000","000000"],"Fermanagh":["098c0b","ffffff"],"Monaghan":["ffffff","310de2"],"Tyrone":["ffffff","f40000"]};
+var BrackChart_gl_FLAGS
 
 function BrackChart(selector, data)
 {
 	this.rounds = this.createRounds(data);
 	this.element = document.querySelector(selector);
 	this.element.classList.add("BrackChart_wrapper");
-	this.element.innerHTML = "";
 
 	if (BrackChart_gl_WRAPPERPADDING)
 	{
@@ -15,6 +14,11 @@ function BrackChart(selector, data)
 	}
 	
 	this.element.style.width = this.rounds.length * (BrackChart_gl_WIDTH + BrackChart_gl_XSPACING) + "px";
+}
+
+BrackChart.prototype.setFlags = function(flags)
+{
+	BrackChart_gl_FLAGS = flags;
 }
 
 BrackChart.prototype.showTitles = function(titles)
@@ -154,25 +158,6 @@ BrackChart.prototype.drawMatchBoxScores = function(match)
 	scores.appendChild(this.createMatchBoxInfo(match));
 	scores.appendChild(this.createMatchBoxTeam(match.team2, match.score2, match.isTeam2Winner));
 
-	if (match.winner)
-	{
-		var circle = document.createElement("div");
-		circle.classList.add("BrackChart_winnerLine");
-
-		if (match.winner == 1)
-		{
-			circle.style.top = "33px";
-			circle.style.left = "173px";
-		}
-		else
-		{
-			circle.style.bottom = "10px";
-			circle.style.left = "173px";
-		}
-
-		scores.appendChild(circle);
-	}
-
 	return scores;
 }
 
@@ -234,38 +219,50 @@ BrackChart.prototype.createMatchBoxTeam = function(name, score, isWinner)
 
 	if (colors)
 	{
-		for (var color of colors)
+		if (Array.isArray(colors))
 		{
-			var flag = document.createElement("div");
-			flag.classList.add("BrackChart_flag");
-			flag.style.backgroundColor = "#" + color;
-			flag.style.width = 48 / colors.length + "px";
-			team.appendChild(flag);
-		}
+			for (var color of colors)
+			{
+				var flag = document.createElement("div");
+				flag.classList.add("BrackChart_flag");
+				flag.style.backgroundColor = "#" + color;
+				flag.style.width = 48 / colors.length + "px";
+				team.appendChild(flag);
+			}
 
-		var last = colors[colors.length - 1];
+			var last = colors[colors.length - 1];
 
-		if (last == "ffffff")
-		{
-			var flag1 = document.createElement("div");
-			flag1.classList.add("BrackChart_flag");
-			flag1.style.backgroundColor = "#" + last;
-			flag1.style.width = "1px";
-			team.appendChild(flag1);
+			if (last == "ffffff")
+			{
+				var flag1 = document.createElement("div");
+				flag1.classList.add("BrackChart_flag");
+				flag1.style.backgroundColor = "#" + last;
+				flag1.style.width = "1px";
+				team.appendChild(flag1);
 
-			var flag2 = document.createElement("div");
-			flag2.classList.add("BrackChart_flag");
-			flag2.style.backgroundColor = "#ccc"
-			flag2.style.width = "1px";
-			team.appendChild(flag2);
+				var flag2 = document.createElement("div");
+				flag2.classList.add("BrackChart_flag");
+				flag2.style.backgroundColor = "#ccc"
+				flag2.style.width = "1px";
+				team.appendChild(flag2);
+			}
+			else
+			{
+				var flag3 = document.createElement("div");
+				flag3.classList.add("BrackChart_flag");
+				flag3.style.backgroundColor = "#" + last;
+				flag3.style.width = "2px";
+				team.appendChild(flag3);
+			}
 		}
 		else
 		{
-			var flag3 = document.createElement("div");
-			flag3.classList.add("BrackChart_flag");
-			flag3.style.backgroundColor = "#" + last;
-			flag3.style.width = "2px";
-			team.appendChild(flag3);
+			console.log("img");
+			var flag_img = document.createElement("img");
+			flag_img.src = colors;
+			flag_img.style.width = "50px";
+			flag_img.style.height = "45px";
+			team.appendChild(flag_img);
 		}
 
 	}
