@@ -8,6 +8,14 @@ https://cdn.rawgit.com/dcallanan/BrackChart/master/latest/brackchart.min.css
 https://cdn.rawgit.com/dcallanan/BrackChart/master/latest2/brackchart.min.js
 https://cdn.rawgit.com/dcallanan/BrackChart/master/latest2/brackchart.min.css
 
+[v2.1]
+https://cdn.rawgit.com/dcallanan/BrackChart/master/2.1/brackchart.min.js
+https://cdn.rawgit.com/dcallanan/BrackChart/master/2.1/brackchart.min.css
+
+[v2.0.1]
+https://cdn.rawgit.com/dcallanan/BrackChart/master/2.0.1/brackchart.min.js
+https://cdn.rawgit.com/dcallanan/BrackChart/master/2.0.1/brackchart.min.css
+
 [v2.0]
 https://cdn.rawgit.com/dcallanan/BrackChart/master/2.0/brackchart.min.js
 https://cdn.rawgit.com/dcallanan/BrackChart/master/2.0/brackchart.min.css
@@ -33,6 +41,14 @@ https://raw.githubusercontent.com/dcallanan/BrackChart/master/latest/brackchart.
 [v2.x latest]
 https://raw.githubusercontent.com/dcallanan/BrackChart/master/latest2/brackchart.min.js
 https://raw.githubusercontent.com/dcallanan/BrackChart/master/latest2/brackchart.min.css
+
+[v2.1]
+https://raw.githubusercontent.com/dcallanan/BrackChart/master/2.1/brackchart.min.js
+https://raw.githubusercontent.com/dcallanan/BrackChart/master/2.1/brackchart.min.css
+
+[v2.0.1]
+https://raw.githubusercontent.com/dcallanan/BrackChart/master/2.0.1/brackchart.min.js
+https://raw.githubusercontent.com/dcallanan/BrackChart/master/2.0.1/brackchart.min.css
 
 [v2.0]
 https://raw.githubusercontent.com/dcallanan/BrackChart/master/2.0/brackchart.min.js

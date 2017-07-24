@@ -1,0 +1,5 @@
+ - CSS code has been cleaned up a bit
+ - JS code has been cleaned up a bit
+ - Green underline now shows under winner score
+ - Match that links to a previous championship is now opaque
+    - Hover: shows a speech bubble with text of the previous championship name
