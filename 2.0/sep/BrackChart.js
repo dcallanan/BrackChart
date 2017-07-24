@@ -1,120 +1,86 @@
-var BrackChart_gl_WIDTH = 230;
-var BrackChart_gl_HEIGHT = 130;
-var BrackChart_gl_XSPACING = 60;
-var BrackChart_gl_YSPACING = 30;
-var BrackChart_gl_LINEW = 1;
-var BrackChart_gl_WRAPPERPADDING = true;
+var brackChart_flags = [];
 
-function BrackChartConfig()
+function BrackChart(data)
 {
-	this.width = 230;
-	this.height = 130;
-	this.paddingX = 60;
-	this.paddingY = 30;
-	this.lineWidth = 1;
-	this.chartHasMargin = true;
-}
+	this.c = {				// config
+		"paddingX": 60,
+		"paddingY": 30,
+		"lineWidth": 1
+	}
 
-BrackChartConfig.prototype.setMatchWidth = function(width)
-{
-	this.width = width;
-}
+	this.lc = {				// local config (deprecated, will be moved to c in version 3)
+		"matchWidth": 230,
+		"matchHeight": 130,
+		"lowestMatchY": 0
+	}
 
-BrackChartConfig.prototype.setMatchHeight = function(height)
-{
-	this.height = height;
-}
-
-BrackChartConfig.prototype.setPaddingX = function(padding)
-{
-	this.paddingX = padding;
-}
-
-BrackChartConfig.prototype.setPaddingY = function(padding)
-{
-	this.paddingY = padding;
-}
-
-BrackChartConfig.prototype.setLineWidth = function(width)
-{
-	this.lineWidth = width;
-}
-
-BrackChartConfig.prototype.setChartHasMargin = function(bool)
-{
-	this.chartHasMargin = bool == true ? true : bool === undefined ? true : false;
-	console.log(this.chartHasMargin)
-}
-
-BrackChartConfig.prototype.use = function()
-{
-	BrackChart_gl_WIDTH = this.width;
-	BrackChart_gl_HEIGHT = this.height;
-	BrackChart_gl_XSPACING = this.paddingX;
-	BrackChart_gl_YSPACING = this.paddingY;
-	BrackChart_gl_LINEW = this.lineWidth;
-	BrackChart_gl_WRAPPERPADDING = this.chartHasMargin;
-}
-
-var BrackChart_gl_FLAGS
-
-function BrackChart(selector, data)
-{
 	this.rounds = this.createRounds(data);
-	this.element = document.querySelector(selector);
-	this.element.classList.add("BrackChart_wrapper");
-
-	if (BrackChart_gl_WRAPPERPADDING)
-	{
-		this.element.style.marginLeft = BrackChart_gl_XSPACING + "px";
-		this.element.style.marginTop = 2 * BrackChart_gl_YSPACING + "px";
-		this.element.style.marginBottom = BrackChart_gl_YSPACING + "px";
-	}
-	
-	this.element.style.width = this.rounds.length * (BrackChart_gl_WIDTH + BrackChart_gl_XSPACING) + "px";
+	this.roundNames = [];
 }
 
-BrackChart.prototype.setFlags = function(flags)
+BrackChart.prototype.config = function(config)
 {
-	BrackChart_gl_FLAGS = flags;
-}
-
-BrackChart.prototype.showTitles = function(titles)
-{
-	for (let [xIndex, title] of titles.entries())
-	{
-		var tit = document.createElement("div");
-		tit.classList.add("BrackChart_title");
-		tit.innerText = title;
-		tit.style.top = -2 * BrackChart_gl_YSPACING + "px";
-		tit.style.left = (BrackChart_gl_WIDTH + BrackChart_gl_XSPACING) * xIndex + "px";
-		this.element.appendChild(tit);
-	}
-}
-
-BrackChart.prototype.useConfig = function(config)
-{
-	this.config = config;
+	this.c = config;
 }
 
 BrackChart.prototype.createRounds = function(data)
 {
-	var lastRound = null;
+	var prevRound = null;
 	var rounds = [];
 
-	for (let roundData of data)
+	for (let [index, roundData] of data.entries())
 	{
 		var round = new BrackChartRound();
-		round.setParent(lastRound);
+		round.c=this.c;round.lc=this.lc;
+		round.setParent(prevRound);
+		round.setIndex(index);
 		round.createFromData(roundData);
-		lastRound = round;
 		rounds.push(round);
+		prevRound = round;
 	}
 
 	return rounds;
 }
 
-BrackChart.prototype.updateMatchDimensions = function()
+BrackChart.prototype.setRoundNames = function(roundNames)
+{
+	for (let [i, round] of roundNames.entries())
+	{
+		var roundName = new BrackChartRoundName(round, i)
+		roundName.c=this.c;roundName.lc=this.lc;
+		this.roundNames.push(roundName);
+	}
+}
+
+BrackChart.prototype.createChart = function(selector)
+{
+	var element = document.querySelector(selector);
+	var elementFactory = new BrackChartElementFactory(element);
+	elementFactory.c=this.c;elementFactory.lc=this.lc;
+	element.classList.add("BrackChart_wrapper");
+	element.style.width = 2 * this.c.paddingX + this.rounds.length * (this.lc.matchWidth + this.c.paddingX) + "px";
+
+	for (let round of this.rounds)
+	{
+		for (let match of round.matches)
+		{
+			elementFactory.createMatch(match);
+			elementFactory.createLines(match.lines);
+		}	
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+/*BrackChart.prototype.updateMatchDimensions = function()
 {
 	var lowest = 0;
 
@@ -184,7 +150,7 @@ BrackChart.prototype.drawMatchBox = function(match)
 	var scores = this.drawMatchBoxScores(match);
 	matchBox.appendChild(scores);
 
-	if (match.data["more-info"] !== undefined && match.data["more-info"].length > 0)
+	if (match.data["moreInfo"] !== undefined && match.data["moreInfo"].length > 0)
 	{
 		var info = this.drawMatchBoxInfo(match);
 		matchBox.appendChild(info);
@@ -224,9 +190,9 @@ BrackChart.prototype.drawMatchBoxInfo = function(match)
 	var info = document.createElement("div");
 	info.classList.add("BrackChart_info");
 
-	if (match.data["more-info"] !== undefined)
+	if (match.data["moreInfo"] !== undefined)
 	{
-		for (var inf of match.data["more-info"])
+		for (var inf of match.data["moreInfo"])
 		{
 			info.appendChild(this.createMoreInfoText(inf));
 		}
@@ -271,7 +237,7 @@ BrackChart.prototype.createMatchBoxTeam = function(name, score, isWinner)
 
 	/*var flag = new Image();
 	flag.src = "ie-kerry.gif";
-	flag.classList.add("BrackChart_flag");*/
+	flag.classList.add("BrackChart_flag");* /
 
 	var colors = BrackChart_gl_FLAGS[name];
 
@@ -368,7 +334,7 @@ BrackChart.prototype.createMatchBoxInfo = function(match)
 	button.innerHTML = "MORE INFO";
 	element.appendChild(button);
 
-	if (match.data["more-info"] !== undefined && match.data["more-info"].length > 0)
+	if (match.data["moreInfo"] !== undefined && match.data["moreInfo"].length > 0)
 	{
 		button.onmousedown = () => button.classList.add("active");
 
@@ -425,95 +391,4 @@ BrackChart.prototype.drawLineX = function(x1, x2, y)
 	line.style.width = width + "px";
 	line.style.height = BrackChart_gl_LINEW + "px";
 	this.element.appendChild(line);
-}
-
-function BrackChartMatch()
-{
-	this.parent1 = null;
-	this.parent2 = null;
-	this.data = {};
-}
-
-BrackChartMatch.prototype.setTeams = function(team1, team2)
-{
-	this.team1 = team1;
-	this.team2 = team2;
-}
-
-BrackChartMatch.prototype.setScores = function(score1, score2)
-{
-	this.score1 = score1;
-	this.score2 = score2;
-}
-
-BrackChartMatch.prototype.setWinner = function(winner)
-{
-	this.winner = winner;
-
-	if (winner == null)
-	{
-		this.winnerName = null;
-		this.isTeam1Winner = null;
-		this.isTeam2Winner = null;
-	}
-	else
-	{
-		this.winnerName = this["team" + winner];
-		this.isTeam1Winner = winner == 1;
-		this.isTeam2Winner = winner == 2;
-	}
-}
-
-BrackChartMatch.prototype.setParents = function(parent1, parent2)
-{
-	this.parent1 = parent1;
-	this.parent2 = parent2;
-}
-
-BrackChartMatch.prototype.hasParents = function()
-{
-	return this.parent1 || this.parent2;
-}
-
-function BrackChartRound()
-{
-	this.parent = null;
-	this.matches = [];
-}
-
-BrackChartRound.prototype.setParent = function(parent)
-{
-	this.parent = parent;
-}
-
-BrackChartRound.prototype.createFromData = function(roundData)
-{
-	var childIndex = 0;
-
-	for (let [i, matchData] of roundData.entries())
-	{
-		var match = new BrackChartMatch();
-		match.setTeams(matchData.team1, matchData.team2);
-		match.setScores(matchData.score1, matchData.score2);
-		match.setWinner(matchData.winner);
-
-		if (matchData.connectsFrom && this.parent != null)
-		{
-			var parent1 = this.parent.getMatch(childIndex * 2);
-			var parent2 = this.parent.getMatch(childIndex * 2 + 1);
-			match.setParents(parent1, parent2);
-		}
-
-		match.data = matchData;
-
-		this.matches.push(match);
-
-		if (!matchData.prev)
-			childIndex++;
-	}
-}
-
-BrackChartRound.prototype.getMatch = function(index)
-{
-	return this.matches[index];
-}
+}*/

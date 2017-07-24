@@ -168,9 +168,11 @@
 	transform: translateX(-100%);
 }
 
-.BrackChart_info {
+.BrackChart_moreInfo {
 	position: relative;
 	transition: transform 0.4s ease;
+	font-size: 14px;
+	font-weight: 600;
 }
 
 .BrackChart_moreInfoText {
