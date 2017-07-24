@@ -1,1 +1,1 @@
-This version is not recommended to be used as it contains unfinished features that won't work properly in certain situations.
+This version is in BETA and is very featureless unless you hack into our code. Please update to version 1.2 or greater!
