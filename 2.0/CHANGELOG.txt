@@ -1,0 +1,3 @@
+ - Cleaned up javascript code
+    - Speed improvements
+    - Smaller file sizes

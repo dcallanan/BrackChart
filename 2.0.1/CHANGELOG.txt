@@ -1,0 +1,1 @@
+ - info.loserWins option in match data allows you to set the loser to continue into the next round

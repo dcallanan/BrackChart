@@ -1,0 +1,258 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,600');
+
+.BrackChart_wrapper {
+	position: relative;
+	/* ^ This makes children positions relative to self */
+	top: 0px;
+	left: 0px;
+	font-family: "Open Sans";
+}
+
+.BrackChart_wrapper ::selection {
+	background: rgba(168,209,255,0.2)
+}
+
+.BrackChart_match {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	background-color: white;
+	border-radius: 4px;
+	box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.3), 0 2px 2px 0 rgba(0, 0, 0, 0.2);
+	overflow: hidden;
+	height: auto;
+	overflow: hidden;
+}
+
+.BrackChart_match.prev {
+	opacity: 0.5;
+	box-shadow: none;
+}
+
+.BrackChart_match.prev::after {
+	content: '';
+	position: absolute;
+	display:block;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	pointer-events: none;
+	box-shadow: inset 0 0px 8px 0px rgba(0, 0, 0, 0.5);
+}
+
+.BrackChart_line {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	background-color: #bbb;
+	background-color: rgba(238, 238, 238, 0.5);
+	box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.3), 0 2px 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.BrackChart_team {
+	height: 45px;
+}
+
+.BrackChart_info {
+	height: 41px;
+	font-size: 14px;
+	font-weight: 600;
+	/*transform: translateY(-1px);*/
+}
+
+.BrackChart_winner {
+	//color: #4caf50;
+}
+
+.BrackChart_loser {
+	//color: #ff1744;
+}
+
+/*.BrackChart_flag {
+	display: inline-block;
+	width: 50px;
+	height: 45px;
+	vertical-align: middle;
+	transform: translateY(-3px);
+}*/
+
+.BrackChart_teamName {
+	vertical-align: top;
+	display: inline-block;
+	width: 100px;
+	height: 45px;
+	padding-left: 20px;
+	font-size: 18px;
+	text-align: left;
+	line-height: 45px;
+	font-weight: 300;
+}
+
+.BrackChart_teamScore {
+	vertical-align: top;
+	display: inline-block;
+	width: 38px;
+	height: 45px;
+	color: black;
+	text-align: right;
+	font-size: 14px;
+	padding-right: 20px;
+	line-height: 45px;
+	font-weight: 600;
+}
+
+.BrackChart_time {
+	display: inline-block;
+	width: 50px;
+	height: 39px;
+	text-align: center;
+	line-height: 41px;
+	background-color: #444;
+	border-top: 1px solid #444;
+	border-bottom: 1px solid #444;
+	color: white;
+}
+
+.BrackChart_date {
+	display: inline-block;
+	width: 55px;
+	height: 39px;
+	margin-left: 5px;
+	padding-left: 15px;
+	line-height: 41px;
+	text-align: left;
+	border-top: 1px solid #eee;
+	border-bottom: 1px solid #eee;
+	color: gray;
+}
+
+.BrackChart_button {
+	display: inline-block;
+	width: 80px;
+	height: 39px;
+	border-top: 1px solid #eee;
+	border-bottom: 1px solid #eee;
+	background-color: white;
+	color: #3f51b5;
+	padding-left: 10px;
+	padding-right: 10px;
+	text-align: center;
+	line-height: 41px;
+	cursor: pointer;
+	transition: transform 0.2s;
+	-webkit-user-select: none;
+     -khtml-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+}
+
+.BrackChart_button.hidden {
+	color: rgba(0, 0, 0, 0);
+}
+
+.BrackChart_button:hover {
+	text-decoration: underline;
+}
+
+.BrackChart_button.active {
+	transform: scale(0.8);
+}
+
+.BrackChart_scores {
+	transition: transform 0.4s ease;
+}
+
+.BrackChart_scores.hidden {
+	transform: translateX(-100%);
+}
+
+.BrackChart_moreInfo {
+	position: relative;
+	transition: transform 0.4s ease;
+	font-size: 14px;
+	font-weight: 600;
+}
+
+.BrackChart_moreInfoText {
+	font-size: 14px;
+	font-weight: 600;
+	line-height: 29px;
+	border-bottom: 1px solid #eee;
+	text-transform: uppercase;
+	text-align: center;
+}
+
+.BrackChart_back {
+	line-height: 29px;
+	position: absolute;
+	text-align: center;
+	color: #3f51b5;
+	cursor: pointer;
+	transition: transform 0.3s;
+}
+
+.BrackChart_back:hover {
+	text-decoration: underline;
+}
+
+.BrackChart_back.active {
+	transform: scale(0.8);
+}
+
+.BrackChart_bubble {
+	display: none;
+	position: relative;
+	margin-left: 15px;
+	max-width: 166px;
+	padding: 7px 12px;
+	background: #FFFFFF;
+	border-radius: 10px;
+	font-size: 12px;
+	text-transform: uppercase;
+	font-weight: 600;
+	line-height: 18px;
+	text-align: center;
+	box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.3), 0 2px 2px 0 rgba(0, 0, 0, 0.2);
+	z-index: 100;
+}
+
+.BrackChart_bubble:after  {
+	content: '';
+	position: absolute;
+	border-style: solid;
+	border-width: 0 12px 12px;
+	border-color: #FFFFFF transparent;
+	display: block;
+	width: 0;
+	z-index: 1;
+	top: -12px;
+	left: 103px;
+	margin-left: -15px;
+}
+
+.BrackChart_bubble.visible, .BrackChart_bubble:hover {
+	display: block;
+}
+
+.BrackChart_flag {
+	vertical-align: top;
+	display: inline-block;
+	height: 45px;
+}
+
+.BrackChart_title {
+	position: absolute;
+	margin-left: 15px;
+	width: 166px;
+	padding: 7px 12px;
+	background: #FFFFFF;
+	border-radius: 10px;
+	font-size: 12px;
+	text-transform: uppercase;
+	font-weight: 600;
+	line-height: 18px;
+	text-align: center;
+	box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.3), 0 2px 2px 0 rgba(0, 0, 0, 0.2);
+}
