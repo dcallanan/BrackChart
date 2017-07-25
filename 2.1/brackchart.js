@@ -1,3 +1,5 @@
+var brackChart_flags = [];
+
 function BrackChart(data)
 {
 	this.c = {				// config
@@ -58,6 +60,11 @@ BrackChart.prototype.createChart = function(selector)
 	element.classList.add("brackChart_container");
 	element.style.width = 2 * this.c.paddingX + this.rounds.length * (this.lc.matchWidth + this.c.paddingX) + "px";
 
+	for (let roundName of this.roundNames)
+	{
+		element.appendChild(roundName.createElement())
+	}
+
 	for (let round of this.rounds)
 	{
 		for (let match of round.matches)
@@ -66,6 +73,8 @@ BrackChart.prototype.createChart = function(selector)
 			elementFactory.createLines(match.lines);
 		}	
 	}
+
+	element.style.height = this.lc.lowestMatchY + this.lc.matchHeight + this.c.paddingY + "px";
 }
 
 function BrackChartElementFactory(element)
@@ -281,6 +290,54 @@ BrackChartElementFactory.prototype.createLine = function(line)
 	this.element.appendChild(node);
 }
 
+function BrackChartFlagBuilder() {}
+
+BrackChartFlagBuilder.prototype.build = function(flag)
+{
+	var container = document.createElement("div");
+
+	if (flag)
+		if (Array.isArray(flag))
+		{
+			for (var color of flag)
+				this.buildPiece(container, 48 / flag.length, color)
+
+			var last = flag[flag.length - 1];
+
+			if (last == "ffffff")
+			{
+				this.buildPiece(container, 1, last)
+				this.buildPiece(container, 1, "ccc");
+			}
+			else
+				this.buildPiece(container, 2, last);
+		}
+		else
+			this.buildImage(container, flag);
+	else
+		this.buildPiece(container, 50, "444");
+
+	return container;
+}
+
+BrackChartFlagBuilder.prototype.buildPiece = function(element, width, color)
+{
+	var flagPiece = document.createElement("div");
+	flagPiece.classList.add("brackChart_flagPiece");
+	flagPiece.style.backgroundColor = "#" + color;
+	flagPiece.style.width = width + "px";
+	element.appendChild(flagPiece);
+}
+
+BrackChartFlagBuilder.prototype.buildImage = function(element, img_src)
+{
+	var flag = new Image();
+	flag.classList.add("brackChart_flagPiece");
+	flag.style.width = "50px";
+	flag.src = img_src;
+	element.appendChild(flag);
+}
+
 function BrackChartMatch(round)
 {
 	this.parent1 = null;
@@ -301,6 +358,8 @@ BrackChartMatch.prototype.initParents = function(prevRound, connectsFrom, childI
 
 BrackChartMatch.prototype.updateDimensions = function()
 {
+	var yOffset = this.c.paddingY * 2 + 32;
+
 	this.x = this.c.paddingX + this.xIndex * (this.lc.matchWidth + this.c.paddingX);
 
 	if (this.hasParents())
@@ -309,7 +368,7 @@ BrackChartMatch.prototype.updateDimensions = function()
 	}
 	else
 	{
-		this.y = this.yIndex == 0 ? this.c.paddingY :
+		this.y = this.yIndex == 0 ? yOffset :
 			this.round.getMatch(this.yIndex - 1).y + this.lc.matchHeight + this.c.paddingY;
 	}
 
@@ -398,54 +457,6 @@ BrackChartMatch.prototype.hasParents = function()
 	return this.parent1 || this.parent2;
 }
 
-function BrackChartFlagBuilder() {}
-
-BrackChartFlagBuilder.prototype.build = function(flag)
-{
-	var container = document.createElement("div");
-
-	if (flag)
-		if (Array.isArray(flag))
-		{
-			for (var color of flag)
-				this.buildPiece(container, 48 / flag.length, color)
-
-			var last = flag[flag.length - 1];
-
-			if (last == "ffffff")
-			{
-				this.buildPiece(container, 1, last)
-				this.buildPiece(container, 1, "ccc");
-			}
-			else
-				this.buildPiece(container, 2, last);
-		}
-		else
-			this.buildImage(container, flag);
-	else
-		this.buildPiece(container, 50, "444");
-
-	return container;
-}
-
-BrackChartFlagBuilder.prototype.buildPiece = function(element, width, color)
-{
-	var flagPiece = document.createElement("div");
-	flagPiece.classList.add("brackChart_flagPiece");
-	flagPiece.style.backgroundColor = "#" + color;
-	flagPiece.style.width = width + "px";
-	element.appendChild(flagPiece);
-}
-
-BrackChartFlagBuilder.prototype.buildImage = function(element, img_src)
-{
-	var flag = new Image();
-	flag.classList.add("brackChart_flagPiece");
-	flag.style.width = "50px";
-	flag.src = img_src;
-	element.appendChild(flag);
-}
-
 function BrackChartRound()
 {
 	this.parent = null;
@@ -503,6 +514,8 @@ BrackChartRoundName.prototype.createElement = function()
 	var element = document.createElement("div");
 	element.classList.add("brackChart_roundName");
 	element.style.top = this.c.paddingY + "px";
-	element.style.left = this.c.paddingX + (this.lc.matchWidth + this.c.paddingX) * xIndex + "px";
-	element.innerText = text;
+	element.style.left = this.c.paddingX + (this.lc.matchWidth + this.c.paddingX) * this.index + "px";
+	element.innerText = this.text;
+
+	return element;
 }

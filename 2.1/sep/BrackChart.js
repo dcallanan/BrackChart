@@ -60,6 +60,11 @@ BrackChart.prototype.createChart = function(selector)
 	element.classList.add("brackChart_container");
 	element.style.width = 2 * this.c.paddingX + this.rounds.length * (this.lc.matchWidth + this.c.paddingX) + "px";
 
+	for (let roundName of this.roundNames)
+	{
+		element.appendChild(roundName.createElement())
+	}
+
 	for (let round of this.rounds)
 	{
 		for (let match of round.matches)
@@ -68,4 +73,6 @@ BrackChart.prototype.createChart = function(selector)
 			elementFactory.createLines(match.lines);
 		}	
 	}
+
+	element.style.height = this.lc.lowestMatchY + this.lc.matchHeight + this.c.paddingY + "px";
 }

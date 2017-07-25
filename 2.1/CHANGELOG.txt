@@ -1,5 +1,7 @@
  - CSS code has been cleaned up a bit
  - JS code has been cleaned up a bit
+ - [Fix #001]: Round names now show again
+ - [Fix #002]: Chart container height is no longer 0px
  - Green underline now shows under winner score
  - Match that links to a previous championship is now opaque
     - Hover: shows a speech bubble with text of the previous championship name

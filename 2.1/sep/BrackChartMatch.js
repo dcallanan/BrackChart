@@ -18,6 +18,8 @@ BrackChartMatch.prototype.initParents = function(prevRound, connectsFrom, childI
 
 BrackChartMatch.prototype.updateDimensions = function()
 {
+	var yOffset = this.c.paddingY * 2 + 32;
+
 	this.x = this.c.paddingX + this.xIndex * (this.lc.matchWidth + this.c.paddingX);
 
 	if (this.hasParents())
@@ -26,7 +28,7 @@ BrackChartMatch.prototype.updateDimensions = function()
 	}
 	else
 	{
-		this.y = this.yIndex == 0 ? this.c.paddingY :
+		this.y = this.yIndex == 0 ? yOffset :
 			this.round.getMatch(this.yIndex - 1).y + this.lc.matchHeight + this.c.paddingY;
 	}
 
