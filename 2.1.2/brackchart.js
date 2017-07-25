@@ -1,5 +1,3 @@
-var brackChart_flags = [];
-
 function BrackChart(data)
 {
 	this.c = {				// config
