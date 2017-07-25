@@ -69,7 +69,6 @@ BrackChartElementFactory.prototype.createMatch = function(match)
 
 	if (match.winner)
 	{
-		console.log("WINNER")
 		var line = document.createElement("div");
 		line.classList.add("brackChart_winnerLine");
 
@@ -158,9 +157,12 @@ BrackChartElementFactory.prototype.createMatchTeam = function(name, score, isWin
 	var team = document.createElement("div");
 	team.classList.add("brackChart_team");
 
-	var flag = brackChart_flags[name];
-	var flagElement = this.flagBuilder.build(flag);
-	team.appendChild(flagElement);
+	if (brackChart_flags)
+	{
+		var flag = brackChart_flags[name];
+		var flagElement = this.flagBuilder.build(flag);
+		team.appendChild(flagElement);
+	}
 	
 	var teamName = document.createElement("div");
 	teamName.classList.add("brackChart_teamName");
